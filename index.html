@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,249 +6,614 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>StreetFault | Smart City Reporting</title>
+    <title>StreetFault | Report. Track. Improve.</title>
+
+    <meta name="description"
+        content="StreetFault helps citizens report, track and manage street problems for better urban infrastructure.">
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
+    <!-- ================= NAVBAR ================= -->
 
     <header class="navbar">
 
-        <div class="logo">
+        <a href="index.html" class="logo">
             Street<span>Fault</span>
-        </div>
+        </a>
 
-        <nav>
-            <a href="#home">Home</a>
+        <nav class="nav-links">
             <a href="#about">About</a>
-            <a href="#how">How It Works</a>
-            <a href="login.html" class="login-btn">Login</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="track.html">Track Complaint</a>
+            <a href="admin-login.html" class="admin-login-btn">
+                Admin Login
+            </a>
         </nav>
 
     </header>
 
 
-    <!-- HERO SECTION -->
+    <!-- ================= HERO ================= -->
 
-    <section class="hero" id="home">
+    <main>
 
-        <div class="hero-text">
+        <section class="hero">
 
-            <p class="tagline">SMARTER STREETS • BETTER CITIES</p>
+            <div class="hero-content">
 
-            <h1>
-                Report Problems.
-                <br>
-                <span>Improve Your Streets.</span>
-            </h1>
-
-            <p class="hero-description">
-
-                Help make your city safer and cleaner.
-                Report street problems, upload images,
-                and track your complaint status—all in one place.
-
-            </p>
-
-            <div class="hero-buttons">
-
-                <a href="register.html" class="primary-btn">
-                    Report an Issue →
-                </a>
-
-                <a href="#how" class="secondary-btn">
-                    Learn More
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <div class="hero-card">
-
-            <div class="card-top">
-                <span class="status-dot"></span>
-                <span>LIVE REPORTING</span>
-            </div>
-
-            <h3>Make Your Voice Count.</h3>
-
-            <p>
-                Your report helps identify
-                and address problems in your neighborhood.
-            </p>
-
-            <div class="mini-stats">
-
-                <div>
-                    <h4>01</h4>
-                    <p>Report</p>
+                <div class="hero-label">
+                    <span class="label-line"></span>
+                    SMARTER CITY • BETTER STREETS
                 </div>
 
-                <div>
-                    <h4>02</h4>
-                    <p>Track</p>
+                <h1>
+                    Report Street
+                    <span>Problems.</span>
+                    <br>
+                    Improve Your City.
+                </h1>
+
+                <p class="hero-description">
+                    StreetFault gives citizens a simple way to report
+                    potholes, broken streetlights, drainage problems,
+                    garbage and other public infrastructure issues —
+                    all in one place.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="register.html" class="btn btn-primary">
+                        Report a Problem
+                        <span class="arrow">→</span>
+                    </a>
+
+                    <a href="track.html" class="btn btn-secondary">
+                        Track Complaint
+                    </a>
+
                 </div>
 
-                <div>
-                    <h4>03</h4>
-                    <p>Resolve</p>
+                <div class="hero-note">
+                    <span class="check">✓</span>
+                    Simple reporting &nbsp; • &nbsp;
+                    Easy tracking &nbsp; • &nbsp;
+                    Citizen focused
                 </div>
 
             </div>
 
-        </div>
 
-    </section>
+            <!-- HERO CARD -->
+
+            <div class="hero-visual">
+
+                <div class="visual-glow"></div>
+
+                <div class="report-card">
+
+                    <div class="report-card-top">
+
+                        <div>
+                            <span class="live-dot"></span>
+                            STREETFAULT SYSTEM
+                        </div>
+
+                        <span class="card-menu">•••</span>
+
+                    </div>
 
 
-    <!-- ABOUT SECTION -->
+                    <div class="report-icon">
+                        ⚠
+                    </div>
 
-    <section class="about" id="about">
+                    <p class="small-label">
+                        NEW REPORT
+                    </p>
 
-        <p class="section-label">ABOUT STREETFAULT</p>
+                    <h2>
+                        Streetlight<br>
+                        Not Working
+                    </h2>
 
-        <h2>Small Reports. Meaningful Change.</h2>
-
-        <p class="about-text">
-
-            StreetFault is a citizen-focused platform
-            designed to make reporting street problems
-            simple, transparent, and accessible.
-
-        </p>
+                    <div class="location-row">
+                        <span>●</span>
+                        Mulund, Mumbai
+                    </div>
 
 
-        <div class="features">
+                    <div class="report-divider"></div>
 
-            <div class="feature-box">
 
-                <div class="feature-icon">📸</div>
+                    <div class="report-status">
 
-                <h3>Report Easily</h3>
+                        <div>
+                            <p class="status-label">
+                                STATUS
+                            </p>
+
+                            <strong>
+                                Under Review
+                            </strong>
+                        </div>
+
+                        <div class="status-badge">
+                            ACTIVE
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-bar">
+                        <span></span>
+                    </div>
+
+                </div>
+
+
+                <!-- FLOATING MINI CARD -->
+
+                <div class="floating-card floating-card-one">
+
+                    <div class="floating-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <strong>Complaint Submitted</strong>
+                        <small>Just now</small>
+                    </div>
+
+                </div>
+
+
+                <div class="floating-card floating-card-two">
+
+                    <strong>24/7</strong>
+                    <span>Accessible</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= TRUST BAR ================= -->
+
+        <section class="trust-bar">
+
+            <div class="trust-item">
+                <strong>01</strong>
+                <span>Report Easily</span>
+            </div>
+
+            <div class="trust-line"></div>
+
+            <div class="trust-item">
+                <strong>02</strong>
+                <span>Track Progress</span>
+            </div>
+
+            <div class="trust-line"></div>
+
+            <div class="trust-item">
+                <strong>03</strong>
+                <span>Improve Infrastructure</span>
+            </div>
+
+        </section>
+
+
+        <!-- ================= ABOUT ================= -->
+
+        <section class="about-section" id="about">
+
+            <div class="section-heading">
+
+                <span class="section-tag">
+                    WHY STREETFAULT
+                </span>
+
+                <h2>
+                    One Platform.
+                    <span>Real Problems.</span>
+                </h2>
 
                 <p>
-                    Upload images and describe
-                    problems in your area.
+                    StreetFault connects citizens with a simple digital
+                    reporting system designed to make public infrastructure
+                    complaints easier to submit, manage and track.
                 </p>
 
             </div>
 
 
-            <div class="feature-box">
+            <div class="feature-grid">
 
-                <div class="feature-icon">📍</div>
+                <article class="feature-card">
 
-                <h3>Share Location</h3>
+                    <div class="feature-number">
+                        01
+                    </div>
+
+                    <div class="feature-icon">
+                        +
+                    </div>
+
+                    <h3>
+                        Easy Reporting
+                    </h3>
+
+                    <p>
+                        Submit a street-related complaint with the
+                        important details, location and supporting image.
+                    </p>
+
+                    <a href="register.html">
+                        Submit Report →
+                    </a>
+
+                </article>
+
+
+                <article class="feature-card feature-card-dark">
+
+                    <div class="feature-number">
+                        02
+                    </div>
+
+                    <div class="feature-icon">
+                        ↗
+                    </div>
+
+                    <h3>
+                        Track Your Complaint
+                    </h3>
+
+                    <p>
+                        Use your unique reference ID to check the current
+                        status of your submitted complaint.
+                    </p>
+
+                    <a href="track.html">
+                        Track Complaint →
+                    </a>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-number">
+                        03
+                    </div>
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Better Accountability
+                    </h3>
+
+                    <p>
+                        Complaints can be reviewed and updated through
+                        a centralized administrative dashboard.
+                    </p>
+
+                    <a href="admin-login.html">
+                        Admin Access →
+                    </a>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= HOW IT WORKS ================= -->
+
+        <section class="process-section" id="how-it-works">
+
+            <div class="process-heading">
+
+                <div>
+                    <span class="section-tag">
+                        HOW IT WORKS
+                    </span>
+
+                    <h2>
+                        From Problem<br>
+                        <span>to Progress.</span>
+                    </h2>
+                </div>
 
                 <p>
-                    Help identify the exact
-                    location of a street issue.
+                    Reporting a public infrastructure problem
+                    should not be complicated. StreetFault keeps
+                    the process simple.
                 </p>
 
             </div>
 
 
-            <div class="feature-box">
+            <div class="process-grid">
 
-                <div class="feature-icon">🔍</div>
+                <div class="process-card">
 
-                <h3>Track Progress</h3>
+                    <span class="process-number">
+                        01
+                    </span>
 
-                <p>
-                    Check your complaint status
-                    whenever you want.
-                </p>
+                    <div class="process-icon">
+                        +
+                    </div>
+
+                    <h3>
+                        Create an Account
+                    </h3>
+
+                    <p>
+                        Register as a citizen using your basic
+                        contact information.
+                    </p>
+
+                </div>
+
+
+                <div class="process-card">
+
+                    <span class="process-number">
+                        02
+                    </span>
+
+                    <div class="process-icon">
+                        ↑
+                    </div>
+
+                    <h3>
+                        Submit the Problem
+                    </h3>
+
+                    <p>
+                        Select the issue type, add location,
+                        description and an optional image.
+                    </p>
+
+                </div>
+
+
+                <div class="process-card">
+
+                    <span class="process-number">
+                        03
+                    </span>
+
+                    <div class="process-icon">
+                        ◌
+                    </div>
+
+                    <h3>
+                        Track the Status
+                    </h3>
+
+                    <p>
+                        Keep your reference ID and use it to
+                        follow the complaint progress.
+                    </p>
+
+                </div>
+
+
+                <div class="process-card">
+
+                    <span class="process-number">
+                        04
+                    </span>
+
+                    <div class="process-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Stay Updated
+                    </h3>
+
+                    <p>
+                        The complaint status can move from
+                        pending to resolution.
+                    </p>
+
+                </div>
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    <!-- HOW IT WORKS -->
+        <!-- ================= ISSUE TYPES ================= -->
 
-    <section class="how" id="how">
+        <section class="issues-section">
 
-        <p class="section-label">HOW IT WORKS</p>
+            <div class="section-heading">
 
-        <h2>Three Simple Steps</h2>
+                <span class="section-tag">
+                    WHAT CAN YOU REPORT?
+                </span>
 
-
-        <div class="steps">
-
-            <div class="step">
-
-                <span>01</span>
-
-                <h3>Submit</h3>
-
-                <p>
-                    Register and report
-                    a street problem.
-                </p>
+                <h2>
+                    Every Street Problem
+                    <span>Matters.</span>
+                </h2>
 
             </div>
 
 
-            <div class="step">
+            <div class="issues-grid">
 
-                <span>02</span>
+                <div class="issue-item">
+                    <span>01</span>
+                    <strong>Potholes</strong>
+                </div>
 
-                <h3>Track</h3>
+                <div class="issue-item">
+                    <span>02</span>
+                    <strong>Streetlights</strong>
+                </div>
 
-                <p>
-                    Follow the progress
-                    of your complaint.
-                </p>
+                <div class="issue-item">
+                    <span>03</span>
+                    <strong>Drainage</strong>
+                </div>
+
+                <div class="issue-item">
+                    <span>04</span>
+                    <strong>Garbage</strong>
+                </div>
+
+                <div class="issue-item">
+                    <span>05</span>
+                    <strong>Damaged Roads</strong>
+                </div>
+
+                <div class="issue-item">
+                    <span>06</span>
+                    <strong>Other Issues</strong>
+                </div>
 
             </div>
 
+        </section>
 
-            <div class="step">
 
-                <span>03</span>
+        <!-- ================= CTA ================= -->
 
-                <h3>Resolve</h3>
+        <section class="cta-section">
 
-                <p>
-                    Stay updated as
-                    your complaint progresses.
-                </p>
+            <div class="cta-box">
+
+                <div class="cta-content">
+
+                    <span class="section-tag light">
+                        MAKE YOUR REPORT COUNT
+                    </span>
+
+                    <h2>
+                        See a problem?
+                        <br>
+                        <span>Report it.</span>
+                    </h2>
+
+                    <p>
+                        A better city starts with people who care
+                        enough to report what needs attention.
+                    </p>
+
+                    <a href="register.html" class="btn btn-cta">
+                        Report a Street Problem
+                        <span>→</span>
+                    </a>
+
+                </div>
+
+                <div class="cta-decoration">
+                    SF
+                </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </section>
+    </main>
 
 
-    <!-- FOOTER -->
+    <!-- ================= FOOTER ================= -->
 
     <footer>
 
-        <div class="logo">
-            Street<span>Fault</span>
+        <div class="footer-main">
+
+            <div class="footer-brand">
+
+                <a href="index.html" class="footer-logo">
+                    Street<span>Fault</span>
+                </a>
+
+                <p>
+                    A smarter way to report and track
+                    public infrastructure problems.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <div>
+                    <h4>PLATFORM</h4>
+
+                    <a href="register.html">
+                        Register
+                    </a>
+
+                    <a href="login.html">
+                        Citizen Login
+                    </a>
+
+                    <a href="report.html">
+                        Report Problem
+                    </a>
+
+                    <a href="track.html">
+                        Track Complaint
+                    </a>
+
+                </div>
+
+
+                <div>
+                    <h4>ACCESS</h4>
+
+                    <a href="admin-login.html">
+                        Admin Login
+                    </a>
+
+                    <a href="#about">
+                        About
+                    </a>
+
+                    <a href="#how-it-works">
+                        How It Works
+                    </a>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <p>
-            Building cleaner and safer streets together.
-        </p>
 
-        <p class="copyright">
-            © 2026 StreetFault. All rights reserved.
-        </p>
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 StreetFault. All rights reserved.
+            </span>
+
+            <span>
+                Built for smarter urban infrastructure.
+            </span>
+
+        </div>
 
     </footer>
 
 
-    <script src="script.js"></script>
-
 </body>
 
 </html>
+```

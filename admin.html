@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,78 +8,124 @@
 
     <title>Admin Dashboard | StreetFault</title>
 
-    <link rel="stylesheet" href="style.css">
-
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f8f7;
+            color: #263b35;
+        }
+
         /* ===============================
-           ADMIN DASHBOARD
+           NAVBAR
            =============================== */
 
-        .admin-page {
-            background: #f5f8f7;
-            min-height: 100vh;
+        .navbar {
+            height: 72px;
+            background: white;
+            border-bottom: 1px solid #e4ece9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
         }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #12372f;
+        }
+
+        .logo span {
+            color: #15956f;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        .navbar nav a {
+            text-decoration: none;
+            color: #53635d;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .navbar nav a:hover {
+            color: #0b6b50;
+        }
+
+        /* ===============================
+           MAIN
+           =============================== */
 
         .admin-main {
             max-width: 1200px;
             margin: auto;
-            padding: 50px 20px;
+            padding: 50px 20px 70px;
         }
 
         .admin-heading {
             margin-bottom: 35px;
         }
 
-        .admin-heading .section-label {
+        .section-label {
             color: #0b6b50;
-            font-weight: 700;
-            letter-spacing: 2px;
             font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin: 0 0 8px;
         }
 
         .admin-heading h1 {
-            font-size: 42px;
-            margin: 8px 0;
             color: #12372f;
+            font-size: 42px;
+            margin: 0;
         }
 
-        .admin-heading p {
+        .admin-heading p:last-child {
             color: #6b7773;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         /* ===============================
-           STAT CARDS
+           STATS
            =============================== */
 
         .admin-stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 42px;
         }
 
         .stat-card {
             background: white;
             padding: 25px;
             border-radius: 16px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-            border: 1px solid #e6eeeb;
+            border: 1px solid #e3ebe8;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
         }
 
         .stat-card span {
+            display: block;
             color: #71807b;
             font-size: 14px;
         }
 
         .stat-card h2 {
             color: #0b6b50;
-            font-size: 30px;
-            margin: 8px 0 0;
+            font-size: 32px;
+            margin: 9px 0 0;
         }
 
         /* ===============================
-           COMPLAINT SECTION
+           COMPLAINT TITLE
            =============================== */
 
         .complaints-title {
@@ -90,6 +137,7 @@
 
         .complaints-title h2 {
             color: #12372f;
+            margin: 0;
         }
 
         .refresh-button {
@@ -99,12 +147,16 @@
             padding: 11px 18px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .refresh-button:hover {
             background: #09583f;
         }
+
+        /* ===============================
+           COMPLAINT CONTAINER
+           =============================== */
 
         #complaintContainer {
             display: grid;
@@ -132,25 +184,48 @@
             border-bottom: 1px solid #edf1ef;
         }
 
-        .complaint-header strong {
+        .reference-id {
             color: #0b6b50;
             font-size: 18px;
+            font-weight: 800;
         }
 
-        .complaint-header p {
+        .citizen-name {
             margin: 7px 0 0;
             color: #68756f;
         }
 
         .status-badge {
-            background: #e9f5f0;
-            color: #0b6b50;
             padding: 7px 13px;
             border-radius: 20px;
             font-size: 13px;
             font-weight: 700;
             white-space: nowrap;
         }
+
+        .status-pending {
+            background: #fff4d6;
+            color: #946200;
+        }
+
+        .status-progress {
+            background: #e6f0ff;
+            color: #245ea8;
+        }
+
+        .status-resolved {
+            background: #e6f7ef;
+            color: #087443;
+        }
+
+        .status-rejected {
+            background: #ffe8e8;
+            color: #b42318;
+        }
+
+        /* ===============================
+           DETAILS
+           =============================== */
 
         .complaint-details {
             padding: 20px 0;
@@ -167,7 +242,7 @@
         }
 
         /* ===============================
-           ADMIN ACTIONS
+           ACTIONS
            =============================== */
 
         .admin-actions {
@@ -195,13 +270,39 @@
             cursor: pointer;
         }
 
-        .loading-message,
-        .empty-message {
+        /* ===============================
+           LOADING / EMPTY / ERROR
+           =============================== */
+
+        .message-box {
             background: white;
-            padding: 30px;
+            padding: 35px;
             text-align: center;
-            border-radius: 15px;
+            border-radius: 16px;
+            border: 1px solid #e3ebe8;
             color: #71807b;
+        }
+
+        .error-box {
+            background: #fff4f4;
+            color: #b42318;
+            border: 1px solid #f0cccc;
+        }
+
+        .loading-spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid #dce9e4;
+            border-top-color: #0b6b50;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* ===============================
@@ -216,6 +317,18 @@
 
             .admin-heading h1 {
                 font-size: 34px;
+            }
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .navbar nav {
+                gap: 12px;
+            }
+
+            .navbar nav a {
+                font-size: 12px;
             }
         }
 
@@ -237,11 +350,25 @@
             .status-select {
                 width: 100%;
             }
+
+            .navbar {
+                height: auto;
+                padding: 18px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .navbar nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 
-<body class="admin-page">
+
+<body>
+
 
     <!-- ===============================
          NAVBAR
@@ -263,10 +390,13 @@
 
 
     <!-- ===============================
-         ADMIN MAIN
+         MAIN DASHBOARD
          =============================== -->
 
     <main class="admin-main">
+
+
+        <!-- HEADER -->
 
         <div class="admin-heading">
 
@@ -292,23 +422,54 @@
         <section class="admin-stats">
 
             <div class="stat-card">
-                <span>Total Complaints</span>
-                <h2 id="totalCount">0</h2>
+
+                <span>
+                    Total Complaints
+                </span>
+
+                <h2 id="totalCount">
+                    0
+                </h2>
+
             </div>
 
-            <div class="stat-card">
-                <span>Pending</span>
-                <h2 id="pendingCount">0</h2>
-            </div>
 
             <div class="stat-card">
-                <span>In Progress</span>
-                <h2 id="progressCount">0</h2>
+
+                <span>
+                    Pending
+                </span>
+
+                <h2 id="pendingCount">
+                    0
+                </h2>
+
             </div>
 
+
             <div class="stat-card">
-                <span>Resolved</span>
-                <h2 id="resolvedCount">0</h2>
+
+                <span>
+                    In Progress
+                </span>
+
+                <h2 id="progressCount">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    Resolved
+                </span>
+
+                <h2 id="resolvedCount">
+                    0
+                </h2>
+
             </div>
 
         </section>
@@ -329,20 +490,22 @@
                 <button
                     class="refresh-button"
                     onclick="loadAdminComplaints()">
+
                     Refresh
+
                 </button>
 
             </div>
 
 
-            <!-- IMPORTANT:
-                 JavaScript puts MongoDB complaints here
-            -->
-
             <div id="complaintContainer">
 
-                <div class="loading-message">
+                <div class="message-box">
+
+                    <div class="loading-spinner"></div>
+
                     Loading complaints...
+
                 </div>
 
             </div>
@@ -353,109 +516,331 @@
 
 
     <!-- ===============================
-         JAVASCRIPT
+         DASHBOARD JAVASCRIPT
          =============================== -->
-
-    <script src="script.js"></script>
-
 
     <script>
 
-        // ==========================================
-        // ADMIN DASHBOARD
-        // LOAD COMPLAINTS FROM MONGODB
-        // ==========================================
+        /* ==========================================
+           YOUR LIVE RENDER BACKEND
+           ========================================== */
+
+        const API_URL =
+            "https://streetfault-backend-9qi4.onrender.com";
+
+
+        /* ==========================================
+           ESCAPE HTML
+           ========================================== */
+
+        function escapeHTML(value) {
+
+            return String(value ?? "")
+
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* ==========================================
+           STATUS CLASS
+           ========================================== */
+
+        function getStatusClass(status) {
+
+            if (status === "Pending") {
+                return "status-pending";
+            }
+
+            if (status === "In Progress") {
+                return "status-progress";
+            }
+
+            if (status === "Resolved") {
+                return "status-resolved";
+            }
+
+            if (status === "Rejected") {
+                return "status-rejected";
+            }
+
+            return "status-pending";
+
+        }
+
+
+        /* ==========================================
+           LOAD COMPLAINTS
+           ========================================== */
 
         async function loadAdminComplaints() {
 
             const container =
-                document.getElementById("complaintContainer");
+                document.getElementById(
+                    "complaintContainer"
+                );
+
+
+            container.innerHTML = `
+
+                <div class="message-box">
+
+                    <div class="loading-spinner"></div>
+
+                    Loading complaints...
+
+                </div>
+
+            `;
+
 
             try {
 
-                container.innerHTML = `
-                    <div class="loading-message">
-                        Loading complaints...
-                    </div>
-                `;
-
-                const response = await fetch(
-                    "http://127.0.0.1:5000/api/reports/all"
+                console.log(
+                    "Connecting to:",
+                    API_URL + "/api/reports/all"
                 );
 
-                const data = await response.json();
+
+                /* ==========================================
+                   API REQUEST
+                   ========================================== */
+
+                const response = await fetch(
+
+                    API_URL + "/api/reports/all",
+
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Accept": "application/json"
+                        },
+
+                        cache: "no-store"
+
+                    }
+
+                );
+
+
+                console.log(
+                    "Server response:",
+                    response.status
+                );
+
+
+                /* ==========================================
+                   READ RESPONSE
+                   ========================================== */
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "API data:",
+                    data
+                );
+
+
+                /* ==========================================
+                   CHECK SERVER RESPONSE
+                   ========================================== */
 
                 if (!response.ok) {
 
-                    container.innerHTML = `
-                        <div class="empty-message">
-                            Unable to load complaints.
-                        </div>
-                    `;
+                    throw new Error(
 
-                    return;
+                        data.message ||
+                        "Server returned an error."
+
+                    );
+
                 }
 
-                const reports = data.reports || [];
+
+                /* ==========================================
+                   GET REPORT ARRAY
+                   ========================================== */
+
+                let reports = [];
 
 
-                // ==========================================
-                // UPDATE STATISTICS
-                // ==========================================
+                if (Array.isArray(data)) {
 
-                document.getElementById("totalCount").textContent =
-                    reports.length;
+                    reports = data;
 
-                document.getElementById("pendingCount").textContent =
-                    reports.filter(
-                        report => report.status === "Pending"
-                    ).length;
+                }
 
-                document.getElementById("progressCount").textContent =
-                    reports.filter(
-                        report => report.status === "In Progress"
-                    ).length;
+                else if (Array.isArray(data.reports)) {
 
-                document.getElementById("resolvedCount").textContent =
-                    reports.filter(
-                        report => report.status === "Resolved"
-                    ).length;
+                    reports = data.reports;
+
+                }
+
+                else if (Array.isArray(data.data)) {
+
+                    reports = data.data;
+
+                }
 
 
-                // ==========================================
-                // NO COMPLAINTS
-                // ==========================================
+                console.log(
+                    "Reports found:",
+                    reports.length
+                );
+
+
+                /* ==========================================
+                   UPDATE COUNTERS
+                   ========================================== */
+
+                document.getElementById(
+                    "totalCount"
+                ).textContent = reports.length;
+
+
+                document.getElementById(
+                    "pendingCount"
+                ).textContent = reports.filter(
+
+                    report =>
+                        report.status === "Pending"
+
+                ).length;
+
+
+                document.getElementById(
+                    "progressCount"
+                ).textContent = reports.filter(
+
+                    report =>
+                        report.status === "In Progress"
+
+                ).length;
+
+
+                document.getElementById(
+                    "resolvedCount"
+                ).textContent = reports.filter(
+
+                    report =>
+                        report.status === "Resolved"
+
+                ).length;
+
+
+                /* ==========================================
+                   NO COMPLAINTS
+                   ========================================== */
 
                 if (reports.length === 0) {
 
                     container.innerHTML = `
-                        <div class="empty-message">
-                            No complaints have been submitted yet.
+
+                        <div class="message-box">
+
+                            No complaints have been
+                            submitted yet.
+
                         </div>
+
                     `;
 
                     return;
+
                 }
 
 
-                // ==========================================
-                // CLEAR OLD CONTENT
-                // ==========================================
+                /* ==========================================
+                   CLEAR CONTAINER
+                   ========================================== */
 
                 container.innerHTML = "";
 
 
-                // ==========================================
-                // CREATE COMPLAINT CARDS
-                // ==========================================
+                /* ==========================================
+                   DISPLAY EACH COMPLAINT
+                   ========================================== */
 
                 reports.forEach(function (report) {
+
 
                     const card =
                         document.createElement("div");
 
+
                     card.className =
                         "admin-complaint-card";
+
+
+                    const referenceId =
+                        escapeHTML(
+                            report.referenceId
+                        );
+
+
+                    const citizenName =
+                        escapeHTML(
+                            report.citizenName ||
+                            "Citizen"
+                        );
+
+
+                    const issueType =
+                        escapeHTML(
+                            report.issueType ||
+                            "Not specified"
+                        );
+
+
+                    const location =
+                        escapeHTML(
+                            report.location ||
+                            "Not specified"
+                        );
+
+
+                    const description =
+                        escapeHTML(
+                            report.description ||
+                            "No description"
+                        );
+
+
+                    const citizenEmail =
+                        escapeHTML(
+                            report.citizenEmail ||
+                            "Not available"
+                        );
+
+
+                    const status =
+                        report.status ||
+                        "Pending";
+
+
+                    const statusClass =
+                        getStatusClass(status);
+
+
+                    let submittedDate =
+                        "Not available";
+
+
+                    if (report.createdAt) {
+
+                        submittedDate =
+                            new Date(
+                                report.createdAt
+                            ).toLocaleString();
+
+                    }
 
 
                     card.innerHTML = `
@@ -464,18 +849,27 @@
 
                             <div>
 
-                                <strong>
-                                    ${report.referenceId}
-                                </strong>
+                                <div class="reference-id">
 
-                                <p>
-                                    ${report.citizenName}
+                                    ${referenceId}
+
+                                </div>
+
+                                <p class="citizen-name">
+
+                                    ${citizenName}
+
                                 </p>
 
                             </div>
 
-                            <span class="status-badge">
-                                ${report.status}
+
+                            <span
+                                class="status-badge ${statusClass}"
+                            >
+
+                                ${escapeHTML(status)}
+
                             </span>
 
                         </div>
@@ -484,49 +878,59 @@
                         <div class="complaint-details">
 
                             <p>
+
                                 <strong>
                                     Issue:
                                 </strong>
 
-                                ${report.issueType}
+                                ${issueType}
+
                             </p>
 
 
                             <p>
+
                                 <strong>
                                     Location:
                                 </strong>
 
-                                ${report.location}
+                                ${location}
+
                             </p>
 
 
                             <p>
+
                                 <strong>
                                     Description:
                                 </strong>
 
-                                ${report.description}
+                                ${description}
+
                             </p>
 
 
                             <p>
+
                                 <strong>
                                     Citizen Email:
                                 </strong>
 
-                                ${report.citizenEmail}
+                                ${citizenEmail}
+
                             </p>
 
 
                             <p>
+
                                 <strong>
                                     Submitted:
                                 </strong>
 
-                                ${new Date(
-                                    report.createdAt
-                                ).toLocaleString()}
+                                ${escapeHTML(
+                                    submittedDate
+                                )}
+
                             </p>
 
                         </div>
@@ -538,17 +942,15 @@
                                 Update Status
                             </label>
 
+
                             <select
                                 class="status-select"
-                                onchange="updateComplaintStatus(
-                                    '${report.referenceId}',
-                                    this.value
-                                )"
+                                data-reference="${referenceId}"
                             >
 
                                 <option
                                     value="Pending"
-                                    ${report.status === "Pending"
+                                    ${status === "Pending"
                                         ? "selected"
                                         : ""}
                                 >
@@ -558,7 +960,7 @@
 
                                 <option
                                     value="In Progress"
-                                    ${report.status === "In Progress"
+                                    ${status === "In Progress"
                                         ? "selected"
                                         : ""}
                                 >
@@ -568,7 +970,7 @@
 
                                 <option
                                     value="Resolved"
-                                    ${report.status === "Resolved"
+                                    ${status === "Resolved"
                                         ? "selected"
                                         : ""}
                                 >
@@ -578,7 +980,7 @@
 
                                 <option
                                     value="Rejected"
-                                    ${report.status === "Rejected"
+                                    ${status === "Rejected"
                                         ? "selected"
                                         : ""}
                                 >
@@ -592,11 +994,38 @@
                     `;
 
 
+                    /* ==========================================
+                       STATUS CHANGE EVENT
+                       ========================================== */
+
+                    const select =
+                        card.querySelector(
+                            ".status-select"
+                        );
+
+
+                    select.addEventListener(
+                        "change",
+                        function () {
+
+                            updateComplaintStatus(
+
+                                report.referenceId,
+
+                                this.value
+
+                            );
+
+                        }
+                    );
+
+
                     container.appendChild(card);
 
                 });
 
             }
+
 
             catch (error) {
 
@@ -605,10 +1034,32 @@
                     error
                 );
 
+
                 container.innerHTML = `
-                    <div class="empty-message">
-                        Unable to connect to StreetFault server.
+
+                    <div class="message-box error-box">
+
+                        <strong>
+                            Unable to connect to StreetFault server.
+                        </strong>
+
+                        <br><br>
+
+                        ${escapeHTML(
+                            error.message
+                        )}
+
+                        <br><br>
+
+                        <button
+                            class="refresh-button"
+                            onclick="loadAdminComplaints()"
+                        >
+                            Try Again
+                        </button>
+
                     </div>
+
                 `;
 
             }
@@ -616,76 +1067,128 @@
         }
 
 
-        // ==========================================
-        // LOAD WHEN PAGE OPENS
-        // ==========================================
+        /* ==========================================
+           UPDATE COMPLAINT STATUS
+           ========================================== */
 
-        loadAdminComplaints();
-        // ==========================================
-// UPDATE COMPLAINT STATUS
-// ==========================================
+        async function updateComplaintStatus(
+            referenceId,
+            newStatus
+        ) {
 
-async function updateComplaintStatus(referenceId, newStatus) {
+            try {
 
-    try {
+                console.log(
+                    "Updating:",
+                    referenceId,
+                    newStatus
+                );
 
-        const response = await fetch(
-            "http://127.0.0.1:5000/api/reports/status/" +
-            encodeURIComponent(referenceId),
-            {
-                method: "PUT",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                const response =
+                    await fetch(
 
-                body: JSON.stringify({
-                    status: newStatus
-                })
+                        API_URL +
+                        "/api/reports/status/" +
+                        encodeURIComponent(
+                            referenceId
+                        ),
+
+                        {
+
+                            method: "PUT",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Accept":
+                                    "application/json"
+
+                            },
+
+                            body: JSON.stringify({
+
+                                status:
+                                    newStatus
+
+                            })
+
+                        }
+
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Status update response:",
+                    data
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+
+                        data.message ||
+                        "Unable to update status."
+
+                    );
+
+                }
+
+
+                alert(
+                    "Complaint status updated to " +
+                    newStatus
+                );
+
+
+                /* Reload complaints */
+
+                loadAdminComplaints();
+
             }
-        );
 
 
-        const data = await response.json();
+            catch (error) {
+
+                console.error(
+                    "STATUS UPDATE ERROR:",
+                    error
+                );
 
 
-        if (response.ok) {
+                alert(
+                    "Unable to update complaint status: " +
+                    error.message
+                );
 
-            alert(
-                "Complaint status updated to " +
-                newStatus
-            );
-
-            // Reload dashboard
-            loadAdminComplaints();
-
-        } else {
-
-            alert(
-                data.message ||
-                "Unable to update status."
-            );
+            }
 
         }
 
 
-    } catch (error) {
+        /* ==========================================
+           START DASHBOARD
+           ========================================== */
 
-        console.error(
-            "STATUS UPDATE ERROR:",
-            error
+        window.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadAdminComplaints();
+
+            }
         );
-
-        alert(
-            "Unable to connect to StreetFault server."
-        );
-
-    }
-
-}
 
     </script>
 
 </body>
 
 </html>
+```
