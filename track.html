@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Track Complaint | StreetFault</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            Street<span>Fault</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="report.html">Report Issue</a>
+            <a href="login.html">Login</a>
+        </nav>
+
+    </header>
+
+
+    <!-- TRACK SECTION -->
+
+    <section class="track-section">
+
+        <div class="track-container">
+
+            <div class="track-heading">
+
+                <p class="section-label">
+                    COMPLAINT TRACKING
+                </p>
+
+                <h1>
+                    Track your
+                    <span>complaint.</span>
+                </h1>
+
+                <p>
+                    Enter your complaint ID to check the
+                    latest status of your reported street problem.
+                </p>
+
+            </div>
+
+
+            <!-- SEARCH CARD -->
+
+            <div class="track-card">
+
+                <h2>Track Complaint</h2>
+
+                <p>
+                    Enter your complaint reference ID below.
+                </p>
+
+                <form id="trackForm">
+
+                    <label for="complaintId">
+                        Complaint ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="complaintId"
+                        placeholder="Example: SF1001"
+                        required
+                    >
+
+                    <button
+                        type="submit"
+                        class="track-button"
+                    >
+                        Check Status →
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            <div
+                class="complaint-result"
+                id="complaintResult"
+            >
+
+                <div class="result-header">
+
+                    <div>
+                        <p class="result-label">
+                            COMPLAINT
+                        </p>
+
+                        <h2 id="displayComplaintId">
+                            SF1001
+                        </h2>
+                    </div>
+
+                    <span
+                        class="status-badge pending"
+                        id="statusBadge"
+                    >
+                        Pending
+                    </span>
+
+                </div>
+
+
+                <div class="result-details">
+
+                    <div>
+                        <small>Issue</small>
+                        <strong id="displayIssue">
+                            Pothole
+                        </strong>
+                    </div>
+
+                    <div>
+                        <small>Location</small>
+                        <strong id="displayLocation">
+                            Mumbai
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <!-- PROGRESS -->
+
+                <div class="progress-section">
+
+                    <div class="progress-line">
+
+                        <div class="progress-step active">
+
+                            <div class="circle">
+                                ✓
+                            </div>
+
+                            <span>Submitted</span>
+
+                        </div>
+
+
+                        <div class="progress-step">
+
+                            <div class="circle">
+                                2
+                            </div>
+
+                            <span>In Progress</span>
+
+                        </div>
+
+
+                        <div class="progress-step">
+
+                            <div class="circle">
+                                3
+                            </div>
+
+                            <span>Resolved</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-message">
+
+                    <small>ADMIN UPDATE</small>
+
+                    <p id="adminMessage">
+                        Your complaint has been received
+                        and is waiting for review.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

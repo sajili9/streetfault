@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report an Issue | StreetFault</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            Street<span>Fault</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="track.html">Track Complaint</a>
+        </nav>
+
+    </header>
+
+
+    <!-- REPORT SECTION -->
+
+    <section class="report-section">
+
+        <div class="report-container">
+
+            <!-- LEFT INFORMATION -->
+
+            <div class="report-info">
+
+                <p class="section-label">
+                    REPORT A STREET PROBLEM
+                </p>
+
+                <h1>
+                    Help us make your
+                    <span>street better.</span>
+                </h1>
+
+                <p>
+                    Found a pothole, broken streetlight,
+                    garbage problem or another street issue?
+                    Report it here and help improve your neighborhood.
+                </p>
+
+
+                <div class="report-tips">
+
+                    <div>
+                        <span>✓</span>
+                        <p>Provide the correct location</p>
+                    </div>
+
+                    <div>
+                        <span>✓</span>
+                        <p>Upload a clear image</p>
+                    </div>
+
+                    <div>
+                        <span>✓</span>
+                        <p>Describe the problem clearly</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- REPORT FORM -->
+
+            <div class="report-card">
+
+                <div class="form-heading">
+
+                    <h2>Report an Issue</h2>
+
+                    <p>
+                        Fill in the details below
+                    </p>
+
+                </div>
+
+
+                <form id="reportForm">
+
+
+                    <!-- ISSUE TYPE -->
+
+                    <label for="issueType">
+                        Issue Type
+                    </label>
+
+                    <select id="issueType" required>
+
+                        <option value="">
+                            Select an issue
+                        </option>
+
+                        <option value="Pothole">
+                            Pothole / Damaged Road
+                        </option>
+
+                        <option value="Streetlight">
+                            Broken Streetlight
+                        </option>
+
+                        <option value="Garbage">
+                            Garbage / Waste
+                        </option>
+
+                        <option value="Drainage">
+                            Drainage / Water Leakage
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+
+                    <!-- LOCATION -->
+
+                    <label for="location">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        placeholder="Enter street / area / landmark"
+                        required
+                    >
+
+
+                    <!-- DESCRIPTION -->
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        rows="5"
+                        placeholder="Describe the problem..."
+                        required
+                    ></textarea>
+
+
+                    <!-- IMAGE -->
+
+                    <label for="image">
+                        Upload Image
+                    </label>
+
+                    <div class="upload-box">
+
+                        <input
+                            type="file"
+                            id="image"
+                            accept="image/*"
+                        >
+
+                        <p>
+                            📷 Upload a photo of the issue
+                        </p>
+
+                        <small>
+                            JPG, PNG or JPEG
+                        </small>
+
+                    </div>
+
+
+                    <!-- SUBMIT -->
+
+                    <button
+                        type="submit"
+                        class="report-button"
+                    >
+                        Submit Complaint →
+                    </button>
+
+                </form>
+
+
+                <p class="form-note">
+                    Your complaint will be reviewed by the StreetFault admin.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
