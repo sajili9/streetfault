@@ -720,3 +720,43 @@ function logoutAdmin() {
     window.location.href =
         "admin-login.html";
 }
+// =====================================================
+// IMAGE PREVIEW
+// =====================================================
+
+const imageInput = document.getElementById("image");
+const imagePreview = document.getElementById("imagePreview");
+const uploadText = document.getElementById("uploadText");
+
+if (imageInput) {
+
+    imageInput.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (!file) {
+            imagePreview.style.display = "none";
+            uploadText.textContent =
+                "📷 Upload a photo of the issue";
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+
+            imagePreview.src =
+                event.target.result;
+
+            imagePreview.style.display =
+                "block";
+
+            uploadText.textContent =
+                "✓ Image selected successfully";
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
