@@ -602,576 +602,474 @@
            LOAD COMPLAINTS
         ========================= */
 
-        async function loadComplaints() {
+    async function loadComplaints() {
+
+    const container =
+        document.getElementById(
+            "complaintsContainer"
+        );
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL +
+                "/api/reports/all"
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server returned status " +
+                response.status
+            );
+
+        }
+
+        const result =
+            await response.json();
+
+        console.log(
+            "Backend response:",
+            result
+        );
 
 
-            const container =
-                document.getElementById(
-                    "complaintsContainer"
-                );
+        /*
+         * Your backend is returning an object.
+         * Get the actual reports array from it.
+         */
+
+        let reports = [];
 
 
-            try {
+        if (Array.isArray(result)) {
+
+            reports = result;
+
+        }
+        else if (
+            result.reports &&
+            Array.isArray(result.reports)
+        ) {
+
+            reports = result.reports;
+
+        }
+        else if (
+            result.data &&
+            Array.isArray(result.data)
+        ) {
+
+            reports = result.data;
+
+        }
+        else if (
+            result.results &&
+            Array.isArray(result.results)
+        ) {
+
+            reports = result.results;
+
+        }
+        else {
+
+            console.error(
+                "Reports array not found:",
+                result
+            );
+
+            throw new Error(
+                "Could not find reports in server response"
+            );
+
+        }
 
 
-                console.log(
-                    "Connecting to StreetFault backend..."
-                );
+        console.log(
+            "Reports array:",
+            reports
+        );
 
 
-                const response =
-                    await fetch(
-                        API_URL +
-                        "/api/reports/all"
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        document.getElementById(
+            "totalReports"
+        ).textContent =
+            reports.length;
+
+
+        const pending =
+            reports.filter(
+                report =>
+                    report.status === "Pending"
+            ).length;
+
+
+        const progress =
+            reports.filter(
+                report =>
+                    report.status === "In Progress"
+            ).length;
+
+
+        const resolved =
+            reports.filter(
+                report =>
+                    report.status === "Resolved"
+            ).length;
+
+
+        document.getElementById(
+            "pendingReports"
+        ).textContent =
+            pending;
+
+
+        document.getElementById(
+            "progressReports"
+        ).textContent =
+            progress;
+
+
+        document.getElementById(
+            "resolvedReports"
+        ).textContent =
+            resolved;
+
+
+
+        /* =========================
+           NO REPORTS
+        ========================= */
+
+        if (
+            reports.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="message">
+
+                    No complaints have been submitted yet.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+
+        /* =========================
+           CREATE COMPLAINT CARDS
+        ========================= */
+
+        container.innerHTML = "";
+
+
+        reports
+            .slice()
+            .reverse()
+            .forEach(report => {
+
+                const card =
+                    document.createElement(
+                        "div"
                     );
 
 
-                console.log(
-                    "Response status:",
-                    response.status
-                );
+                card.className =
+                    "complaint-card";
 
 
-                if (!response.ok) {
+                const status =
+                    report.status ||
+                    "Pending";
 
-                    throw new Error(
-                        "Server returned status " +
-                        response.status
+
+                const statusClass =
+                    getStatusClass(
+                        status
                     );
-
-                }
-
-
-                const result =
-                    await response.json();
-
-
-                console.log(
-                    "Backend data:",
-                    result
-                );
 
 
 
                 /* =========================
-                   HANDLE DIFFERENT RESPONSE FORMATS
+                   IMAGE
                 ========================= */
 
-
-                let reports = [];
+                let imageHTML = "";
 
 
                 if (
-                    Array.isArray(result)
+                    report.image &&
+                    typeof report.image ===
+                    "string" &&
+                    report.image.trim() !== ""
                 ) {
 
-                    reports = result;
+                    imageHTML = `
 
-                }
+                        <div class="complaint-image">
 
-                else if (
-                    result &&
-                    Array.isArray(
-                        result.reports
-                    )
-                ) {
+                            <strong>
+                                Uploaded Image:
+                            </strong>
 
-                    reports =
-                        result.reports;
-
-                }
-
-                else if (
-                    result &&
-                    Array.isArray(
-                        result.data
-                    )
-                ) {
-
-                    reports =
-                        result.data;
-
-                }
-
-                else {
-
-                    console.error(
-                        "Unexpected response format:",
-                        result
-                    );
-
-                    throw new Error(
-                        "Unexpected reports data format"
-                    );
-
-                }
-
-
-
-                console.log(
-                    "Reports found:",
-                    reports.length
-                );
-
-
-
-                /* =========================
-                   SUMMARY
-                ========================= */
-
-
-                const pending =
-                    reports.filter(
-                        report =>
-                            report.status ===
-                            "Pending"
-                    ).length;
-
-
-                const progress =
-                    reports.filter(
-                        report =>
-                            report.status ===
-                            "In Progress"
-                    ).length;
-
-
-                const resolved =
-                    reports.filter(
-                        report =>
-                            report.status ===
-                            "Resolved"
-                    ).length;
-
-
-
-                document.getElementById(
-                    "totalReports"
-                ).textContent =
-                    reports.length;
-
-
-                document.getElementById(
-                    "pendingReports"
-                ).textContent =
-                    pending;
-
-
-                document.getElementById(
-                    "progressReports"
-                ).textContent =
-                    progress;
-
-
-                document.getElementById(
-                    "resolvedReports"
-                ).textContent =
-                    resolved;
-
-
-
-                /* =========================
-                   NO REPORTS
-                ========================= */
-
-
-                if (
-                    reports.length === 0
-                ) {
-
-
-                    container.innerHTML = `
-
-                        <div class="message">
-
-                            No complaints have been submitted yet.
+                            <img
+                                src="${report.image}"
+                                alt="Complaint image"
+                                loading="lazy"
+                            >
 
                         </div>
 
                     `;
 
-
-                    return;
-
                 }
 
 
 
                 /* =========================
-                   CLEAR OLD CONTENT
+                   CARD
                 ========================= */
 
+                card.innerHTML = `
 
-                container.innerHTML = "";
+                    <div class="complaint-header">
 
+                        <div class="reference">
 
-
-                /* =========================
-                   CREATE COMPLAINT CARDS
-                ========================= */
-
-
-                reports
-                    .slice()
-                    .reverse()
-                    .forEach(
-                        report => {
-
-
-                            const card =
-                                document.createElement(
-                                    "div"
-                                );
-
-
-                            card.className =
-                                "complaint-card";
-
-
-                            const status =
-                                report.status ||
-                                "Pending";
-
-
-                            const statusClass =
-                                getStatusClass(
-                                    status
-                                );
-
-
-
-                            /* =========================
-                               IMAGE
-                            ========================= */
-
-
-                            let imageHTML = "";
-
-
-                            if (
-                                report.image &&
-                                typeof report.image ===
-                                "string" &&
-                                report.image.trim() !== ""
-                            ) {
-
-
-                                imageHTML = `
-
-                                    <div class="complaint-image">
-
-                                        <strong>
-                                            Uploaded Image:
-                                        </strong>
-
-
-                                        <img
-                                            src="${report.image}"
-                                            alt="Complaint image"
-                                            loading="lazy"
-                                        >
-
-                                    </div>
-
-                                `;
-
-                            }
-
-
-
-                            /* =========================
-                               COMPLAINT CARD
-                            ========================= */
-
-
-                            card.innerHTML = `
-
-
-                                <div class="complaint-header">
-
-
-                                    <div class="reference">
-
-                                        ${escapeHTML(
-                                            report.referenceId ||
-                                            "No Reference ID"
-                                        )}
-
-                                    </div>
-
-
-                                    <span
-                                        class="status ${statusClass}"
-                                    >
-
-                                        ${escapeHTML(
-                                            status
-                                        )}
-
-                                    </span>
-
-
-                                </div>
-
-
-
-                                <div class="complaint-details">
-
-
-                                    <div class="detail">
-
-                                        <strong>
-                                            Citizen Name
-                                        </strong>
-
-
-                                        <span>
-
-                                            ${escapeHTML(
-                                                report.citizenName ||
-                                                "Not provided"
-                                            )}
-
-                                        </span>
-
-                                    </div>
-
-
-
-                                    <div class="detail">
-
-                                        <strong>
-                                            Email
-                                        </strong>
-
-
-                                        <span>
-
-                                            ${escapeHTML(
-                                                report.citizenEmail ||
-                                                "Not provided"
-                                            )}
-
-                                        </span>
-
-                                    </div>
-
-
-
-                                    <div class="detail">
-
-                                        <strong>
-                                            Issue Type
-                                        </strong>
-
-
-                                        <span>
-
-                                            ${escapeHTML(
-                                                report.issueType ||
-                                                "Not provided"
-                                            )}
-
-                                        </span>
-
-                                    </div>
-
-
-
-                                    <div class="detail">
-
-                                        <strong>
-                                            Location
-                                        </strong>
-
-
-                                        <span>
-
-                                            ${escapeHTML(
-                                                report.location ||
-                                                "Not provided"
-                                            )}
-
-                                        </span>
-
-                                    </div>
-
-
-
-                                    <div class="detail description">
-
-                                        <strong>
-                                            Description
-                                        </strong>
-
-
-                                        <span>
-
-                                            ${escapeHTML(
-                                                report.description ||
-                                                "No description"
-                                            )}
-
-                                        </span>
-
-                                    </div>
-
-
-                                </div>
-
-
-
-                                ${imageHTML}
-
-
-
-                                <div class="admin-actions">
-
-
-                                    <label>
-                                        Update Complaint Status
-                                    </label>
-
-
-                                    <select
-                                        class="status-select"
-                                        id="status-${escapeHTML(
-                                            report.referenceId
-                                        )}"
-                                    >
-
-
-                                        <option
-                                            value="Pending"
-                                            ${
-                                                status ===
-                                                "Pending"
-                                                    ? "selected"
-                                                    : ""
-                                            }
-                                        >
-
-                                            Pending
-
-                                        </option>
-
-
-
-                                        <option
-                                            value="In Progress"
-                                            ${
-                                                status ===
-                                                "In Progress"
-                                                    ? "selected"
-                                                    : ""
-                                            }
-                                        >
-
-                                            In Progress
-
-                                        </option>
-
-
-
-                                        <option
-                                            value="Resolved"
-                                            ${
-                                                status ===
-                                                "Resolved"
-                                                    ? "selected"
-                                                    : ""
-                                            }
-                                        >
-
-                                            Resolved
-
-                                        </option>
-
-
-
-                                        <option
-                                            value="Rejected"
-                                            ${
-                                                status ===
-                                                "Rejected"
-                                                    ? "selected"
-                                                    : ""
-                                            }
-                                        >
-
-                                            Rejected
-
-                                        </option>
-
-
-                                    </select>
-
-
-                                    <br>
-
-
-                                    <button
-                                        class="update-btn"
-                                        onclick="updateStatus('${escapeHTML(
-                                            report.referenceId
-                                        )}')"
-                                    >
-
-                                        Update Status
-
-                                    </button>
-
-
-                                </div>
-
-
-                            `;
-
-
-                            container.appendChild(
-                                card
-                            );
-
-
-                        }
-                    );
-
-
-            }
-
-
-            catch (error) {
-
-
-                console.error(
-                    "LOAD COMPLAINTS ERROR:",
-                    error
-                );
-
-
-                container.innerHTML = `
-
-                    <div class="message">
-
-                        Unable to load complaints.
-
-                        <br><br>
-
-                        <small>
                             ${escapeHTML(
-                                error.message
+                                report.referenceId ||
+                                "No Reference ID"
                             )}
-                        </small>
+
+                        </div>
+
+
+                        <span
+                            class="status ${statusClass}"
+                        >
+
+                            ${escapeHTML(
+                                status
+                            )}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="complaint-details">
+
+
+                        <div class="detail">
+
+                            <strong>
+                                Citizen Name
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    report.citizenName ||
+                                    "Not provided"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <strong>
+                                Email
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    report.citizenEmail ||
+                                    "Not provided"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <strong>
+                                Issue Type
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    report.issueType ||
+                                    "Not provided"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <strong>
+                                Location
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    report.location ||
+                                    "Not provided"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail description">
+
+                            <strong>
+                                Description
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    report.description ||
+                                    "No description"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    ${imageHTML}
+
+
+                    <div class="admin-actions">
+
+                        <label>
+                            Update Complaint Status
+                        </label>
+
+
+                        <select
+                            class="status-select"
+                            id="status-${report.referenceId}"
+                        >
+
+                            <option
+                                value="Pending"
+                                ${
+                                    status === "Pending"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Pending
+                            </option>
+
+
+                            <option
+                                value="In Progress"
+                                ${
+                                    status === "In Progress"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                In Progress
+                            </option>
+
+
+                            <option
+                                value="Resolved"
+                                ${
+                                    status === "Resolved"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Resolved
+                            </option>
+
+
+                            <option
+                                value="Rejected"
+                                ${
+                                    status === "Rejected"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Rejected
+                            </option>
+
+                        </select>
+
+
+                        <br>
+
+
+                        <button
+                            class="update-btn"
+                            onclick="updateStatus('${report.referenceId}')"
+                        >
+                            Update Status
+                        </button>
 
                     </div>
 
                 `;
 
-            }
 
-        }
+                container.appendChild(
+                    card
+                );
+
+            });
 
 
+    }
+    catch (error) {
+
+        console.error(
+            "Error loading complaints:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="message">
+
+                Unable to load complaints.
+
+                <br><br>
+
+                <small>
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </small>
+
+            </div>
+
+        `;
+
+    }
+
+}
 
         /* =========================
            STATUS CLASS
