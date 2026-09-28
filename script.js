@@ -262,48 +262,87 @@ if (reportForm) {
             const imageInput =
                 document.getElementById("image");
 
+let imageBase64 = "";
 
-            let imageBase64 = "";
+if (
+    imageInput &&
+    imageInput.files &&
+    imageInput.files.length > 0
+) {
 
+    const file = imageInput.files[0];
 
-            // Convert image to Base64
-            if (
-                imageInput &&
-                imageInput.files &&
-                imageInput.files.length > 0
-            ) {
+    imageBase64 = await new Promise((resolve, reject) => {
 
-                const file =
-                    imageInput.files[0];
+        const reader = new FileReader();
 
+        reader.onload = function (event) {
 
-                imageBase64 =
-                    await new Promise(
-                        (resolve, reject) => {
+            const img = new Image();
 
-                            const reader =
-                                new FileReader();
+            img.onload = function () {
 
+                const canvas = document.createElement("canvas");
 
-                            reader.onload =
-                                () => resolve(
-                                    reader.result
-                                );
+                const maxWidth = 1000;
+                const maxHeight = 1000;
 
+                let width = img.width;
+                let height = img.height;
 
-                            reader.onerror =
-                                reject;
+                if (width > maxWidth || height > maxHeight) {
 
+                    if (width > height) {
 
-                            reader.readAsDataURL(
-                                file
-                            );
+                        height =
+                            height * (maxWidth / width);
 
-                        }
+                        width = maxWidth;
+
+                    } else {
+
+                        width =
+                            width * (maxHeight / height);
+
+                        height = maxHeight;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx =
+                    canvas.getContext("2d");
+
+                ctx.drawImage(
+                    img,
+                    0,
+                    0,
+                    width,
+                    height
+                );
+
+                const compressedImage =
+                    canvas.toDataURL(
+                        "image/jpeg",
+                        0.7
                     );
-            }
 
+                resolve(compressedImage);
 
+            };
+
+            img.onerror = reject;
+
+            img.src = event.target.result;
+        };
+
+        reader.onerror = reject;
+
+        reader.readAsDataURL(file);
+
+    });
+}
             try {
 
                 const response =
