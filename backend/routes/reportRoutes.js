@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const Report = require("../models/Report");
 
@@ -19,7 +21,9 @@ router.post("/submit", async (req, res) => {
             issueType,
             location,
             description,
-            image
+            image,
+            latitude,
+            longitude
         } = req.body;
 
 
@@ -35,6 +39,46 @@ router.post("/submit", async (req, res) => {
             return res.status(400).json({
                 message: "Please fill all required fields"
             });
+
+        }
+
+
+        // Validate GPS coordinates if provided
+
+        const hasLatitude =
+            latitude !== null &&
+            latitude !== undefined &&
+            latitude !== "";
+
+        const hasLongitude =
+            longitude !== null &&
+            longitude !== undefined &&
+            longitude !== "";
+
+        if (hasLatitude !== hasLongitude) {
+
+            return res.status(400).json({
+                message: "Both GPS coordinates are required"
+            });
+
+        }
+
+        if (hasLatitude) {
+
+            if (
+                !Number.isFinite(Number(latitude)) ||
+                !Number.isFinite(Number(longitude)) ||
+                Number(latitude) < -90 ||
+                Number(latitude) > 90 ||
+                Number(longitude) < -180 ||
+                Number(longitude) > 180
+            ) {
+
+                return res.status(400).json({
+                    message: "Invalid GPS coordinates"
+                });
+
+            }
 
         }
 
@@ -61,6 +105,10 @@ router.post("/submit", async (req, res) => {
             description,
 
             image: image || "",
+
+            latitude: hasLatitude ? Number(latitude) : null,
+
+            longitude: hasLongitude ? Number(longitude) : null,
 
             status: "Pending",
 
