@@ -1,3 +1,5 @@
+
+
 const mongoose = require("mongoose");
 
 const reportSchema = new mongoose.Schema(
@@ -32,6 +34,18 @@ const reportSchema = new mongoose.Schema(
         location: {
             type: String,
             required: true
+        },
+
+        // GPS LOCATION
+
+        latitude: {
+            type: Number,
+            default: null
+        },
+
+        longitude: {
+            type: Number,
+            default: null
         },
 
         description: {
