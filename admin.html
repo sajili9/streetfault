@@ -1,23 +1,19 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>StreetFault Admin Dashboard</title>
 
-    <!-- LEAFLET MAP CSS -->
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     >
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -29,8 +25,6 @@
             background: #f4f7f6;
             color: #263b35;
         }
-
-        /* NAVBAR */
 
         .navbar {
             background: linear-gradient(135deg, #0b6b50, #15956f);
@@ -61,12 +55,6 @@
             cursor: pointer;
         }
 
-        .logout-btn:hover {
-            background: #e9f7f2;
-        }
-
-        /* MAIN */
-
         .container {
             width: 90%;
             max-width: 1100px;
@@ -82,8 +70,6 @@
             color: #66746f;
             margin-bottom: 25px;
         }
-
-        /* SUMMARY */
 
         .summary {
             display: grid;
@@ -108,8 +94,6 @@
         .summary-card p {
             color: #6d7773;
         }
-
-        /* GPS MAP */
 
         .map-section {
             background: white;
@@ -143,8 +127,6 @@
             color: #66746f;
         }
 
-        /* COMPLAINT CARD */
-
         .complaint-card {
             background: white;
             border-radius: 14px;
@@ -158,6 +140,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            gap: 12px;
         }
 
         .reference {
@@ -165,8 +148,6 @@
             font-weight: bold;
             color: #0b6b50;
         }
-
-        /* STATUS */
 
         .status {
             padding: 7px 12px;
@@ -195,8 +176,6 @@
             color: #b42318;
         }
 
-        /* DETAILS */
-
         .complaint-details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -208,6 +187,7 @@
             background: #f7faf9;
             padding: 13px;
             border-radius: 8px;
+            min-width: 0;
         }
 
         .detail strong {
@@ -219,13 +199,12 @@
         .detail span {
             color: #596761;
             overflow-wrap: anywhere;
+            white-space: pre-wrap;
         }
 
         .description {
             grid-column: 1 / -1;
         }
-
-        /* IMAGE */
 
         .complaint-image {
             margin-top: 20px;
@@ -236,7 +215,6 @@
         .complaint-image strong {
             display: block;
             margin-bottom: 10px;
-            color: #263b35;
         }
 
         .complaint-image img {
@@ -249,8 +227,6 @@
             border: 1px solid #e3ebe8;
             background: #f5f8f7;
         }
-
-        /* LOCATION BUTTON */
 
         .map-btn {
             margin-top: 12px;
@@ -271,8 +247,6 @@
             color: #8a6d00;
             font-size: 14px;
         }
-
-        /* ADMIN ACTIONS */
 
         .admin-actions {
             margin-top: 20px;
@@ -312,8 +286,6 @@
             background: #085a43;
         }
 
-        /* MESSAGE */
-
         .message {
             background: white;
             padding: 30px;
@@ -323,10 +295,7 @@
             box-shadow: 0 3px 12px rgba(0,0,0,0.06);
         }
 
-        /* RESPONSIVE */
-
         @media (max-width: 800px) {
-
             .summary {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -338,11 +307,9 @@
             .description {
                 grid-column: auto;
             }
-
         }
 
         @media (max-width: 500px) {
-
             .summary {
                 grid-template-columns: 1fr;
             }
@@ -358,50 +325,32 @@
             .complaint-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
             }
 
             #complaintMap {
                 height: 320px;
             }
-
         }
-
     </style>
-
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-
     <header class="navbar">
-
-        <div class="logo">
-            Street<span>Fault</span>
-        </div>
+        <div class="logo">Street<span>Fault</span></div>
 
         <button class="logout-btn" onclick="logout()">
             Logout
         </button>
-
     </header>
-
-
-    <!-- MAIN -->
 
     <main class="container">
 
-        <h1 class="page-title">
-            Admin Dashboard
-        </h1>
+        <h1 class="page-title">Admin Dashboard</h1>
 
         <p class="page-subtitle">
             View and manage citizen complaints submitted through StreetFault.
         </p>
-
-
-        <!-- SUMMARY -->
 
         <div class="summary">
 
@@ -427,9 +376,6 @@
 
         </div>
 
-
-        <!-- GPS MAP -->
-
         <section class="map-section">
 
             <h2>📍 Complaint Locations</h2>
@@ -446,44 +392,79 @@
 
         </section>
 
-
-        <!-- COMPLAINTS -->
-
         <div id="complaintsContainer">
-
-            <div class="message">
-                Loading complaints...
-            </div>
-
+            <div class="message">Loading complaints...</div>
         </div>
 
     </main>
 
-
-    <!-- LEAFLET MAP JAVASCRIPT -->
-
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-
     <script>
-
-        /* =========================
-           BACKEND URL
-        ========================= */
 
         const API_URL =
             "https://streetfault-backend-9qi4.onrender.com";
 
-
-        /* =========================
-           INITIALIZE MAP
-        ========================= */
-
         let complaintMap = null;
-
         let mapMarkers = {};
 
+        // ESCAPE HTML
+        function escapeHTML(value) {
+            if (value === null || value === undefined) {
+                return "";
+            }
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // STATUS CLASS
+        function getStatusClass(status) {
+            if (status === "In Progress") return "status-progress";
+            if (status === "Resolved") return "status-resolved";
+            if (status === "Rejected") return "status-rejected";
+
+            return "status-pending";
+        }
+
+        // CHECK GPS
+        function hasValidGPS(report) {
+            if (
+                report.latitude === null ||
+                report.longitude === null ||
+                report.latitude === undefined ||
+                report.longitude === undefined ||
+                report.latitude === "" ||
+                report.longitude === ""
+            ) {
+                return false;
+            }
+
+            const lat = Number(report.latitude);
+            const lng = Number(report.longitude);
+
+            return (
+                Number.isFinite(lat) &&
+                Number.isFinite(lng) &&
+                lat >= -90 &&
+                lat <= 90 &&
+                lng >= -180 &&
+                lng <= 180
+            );
+        }
+
+        // INITIALIZE MAP
         function initializeMap() {
+
+            if (typeof L === "undefined") {
+                document.getElementById("mapMessage").textContent =
+                    "Map library could not load. Please refresh the page.";
+                return;
+            }
 
             complaintMap = L.map("complaintMap").setView(
                 [20.5937, 78.9629],
@@ -497,18 +478,15 @@
                         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 }
             ).addTo(complaintMap);
-
         }
 
-
-        /* =========================
-           DISPLAY GPS LOCATIONS
-        ========================= */
-
+        // DISPLAY GPS MARKERS
         function displayComplaintLocations(reports) {
 
             const mapMessage =
                 document.getElementById("mapMessage");
+
+            if (!complaintMap) return;
 
             Object.values(mapMarkers).forEach(marker => {
                 complaintMap.removeLayer(marker);
@@ -516,35 +494,12 @@
 
             mapMarkers = {};
 
-            const validReports = reports.filter(report => {
-
-                const lat = Number(report.latitude);
-                const lng = Number(report.longitude);
-
-                return (
-                    report.latitude !== null &&
-                    report.latitude !== undefined &&
-                    report.longitude !== null &&
-                    report.longitude !== undefined &&
-                    report.latitude !== "" &&
-                    report.longitude !== "" &&
-                    Number.isFinite(lat) &&
-                    Number.isFinite(lng) &&
-                    lat >= -90 &&
-                    lat <= 90 &&
-                    lng >= -180 &&
-                    lng <= 180
-                );
-
-            });
+            const validReports = reports.filter(hasValidGPS);
 
             if (validReports.length === 0) {
-
                 mapMessage.textContent =
                     "No GPS locations available yet. New complaints with captured GPS coordinates will appear here.";
-
                 return;
-
             }
 
             const bounds = [];
@@ -558,35 +513,17 @@
                     .addTo(complaintMap);
 
                 const popupContent = `
-
                     <div style="min-width:180px;">
-
-                        <strong>
-                            ${escapeHTML(report.referenceId)}
-                        </strong>
-
+                        <strong>${escapeHTML(report.referenceId)}</strong>
                         <br><br>
-
-                        <b>Issue:</b>
-                        ${escapeHTML(report.issueType)}
-
+                        <b>Issue:</b> ${escapeHTML(report.issueType)}
                         <br>
-
-                        <b>Citizen:</b>
-                        ${escapeHTML(report.citizenName)}
-
+                        <b>Citizen:</b> ${escapeHTML(report.citizenName)}
                         <br>
-
-                        <b>Location:</b>
-                        ${escapeHTML(report.location)}
-
+                        <b>Location:</b> ${escapeHTML(report.location)}
                         <br>
-
-                        <b>Status:</b>
-                        ${escapeHTML(report.status)}
-
+                        <b>Status:</b> ${escapeHTML(report.status)}
                     </div>
-
                 `;
 
                 marker.bindPopup(popupContent);
@@ -594,70 +531,52 @@
                 mapMarkers[report.referenceId] = marker;
 
                 bounds.push([lat, lng]);
-
             });
 
             if (bounds.length === 1) {
-
                 complaintMap.setView(bounds[0], 15);
-
             } else {
-
                 complaintMap.fitBounds(bounds, {
                     padding: [40, 40],
                     maxZoom: 15
                 });
-
             }
 
             mapMessage.textContent =
                 validReports.length +
                 " complaint location(s) displayed on the map.";
 
+            setTimeout(() => complaintMap.invalidateSize(), 100);
         }
 
-
-        /* =========================
-           VIEW LOCATION ON MAP
-        ========================= */
-
+        // FOCUS ON GPS MARKER
         function focusOnLocation(referenceId) {
 
-            const marker =
-                mapMarkers[referenceId];
+            const marker = mapMarkers[referenceId];
 
             if (!marker) {
-
                 alert("GPS location is not available for this complaint.");
-
                 return;
-
             }
 
-            complaintMap.setView(
-                marker.getLatLng(),
-                16
-            );
+            complaintMap.setView(marker.getLatLng(), 16);
 
             marker.openPopup();
 
-            document.getElementById("complaintMap")
-                .scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
-                });
-
+            document.getElementById("complaintMap").scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
         }
 
-
-        /* =========================
-           LOAD COMPLAINTS
-        ========================= */
-
+        // LOAD COMPLAINTS
         async function loadComplaints() {
 
             const container =
                 document.getElementById("complaintsContainer");
+
+            container.innerHTML =
+                '<div class="message">Loading complaints...</div>';
 
             try {
 
@@ -666,173 +585,71 @@
                 );
 
                 if (!response.ok) {
-
                     throw new Error(
                         "Server returned status " + response.status
                     );
-
                 }
 
                 const result = await response.json();
 
-                let reports = [];
+                // API RETURNS { reports: [...] }
+                const reports = Array.isArray(result)
+                    ? result
+                    : result.reports;
 
-                if (Array.isArray(result)) {
-
-                    reports = result;
-
-                } else if (
-                    result.reports &&
-                    Array.isArray(result.reports)
-                ) {
-
-                    reports = result.reports;
-
-                } else if (
-                    result.data &&
-                    Array.isArray(result.data)
-                ) {
-
-                    reports = result.data;
-
-                } else if (
-                    result.results &&
-                    Array.isArray(result.results)
-                ) {
-
-                    reports = result.results;
-
-                } else {
-
+                if (!Array.isArray(reports)) {
                     throw new Error(
-                        "Could not find reports in server response"
+                        "Reports array not found in API response."
                     );
-
                 }
 
+                console.log("StreetFault reports:", reports);
 
-                /* SUMMARY */
+                // SUMMARY COUNTS
+                document.getElementById("totalReports").textContent =
+                    reports.length;
 
-                document.getElementById(
-                    "totalReports"
-                ).textContent = reports.length;
+                document.getElementById("pendingReports").textContent =
+                    reports.filter(r => r.status === "Pending").length;
 
-                const pending = reports.filter(
-                    report => report.status === "Pending"
-                ).length;
+                document.getElementById("progressReports").textContent =
+                    reports.filter(r => r.status === "In Progress").length;
 
-                const progress = reports.filter(
-                    report => report.status === "In Progress"
-                ).length;
+                document.getElementById("resolvedReports").textContent =
+                    reports.filter(r => r.status === "Resolved").length;
 
-                const resolved = reports.filter(
-                    report => report.status === "Resolved"
-                ).length;
-
-                document.getElementById(
-                    "pendingReports"
-                ).textContent = pending;
-
-                document.getElementById(
-                    "progressReports"
-                ).textContent = progress;
-
-                document.getElementById(
-                    "resolvedReports"
-                ).textContent = resolved;
-
-
-                /* UPDATE MAP */
-
+                // MAP
                 displayComplaintLocations(reports);
 
-
-                /* NO REPORTS */
-
                 if (reports.length === 0) {
-
                     container.innerHTML = `
                         <div class="message">
                             No complaints have been submitted yet.
                         </div>
                     `;
-
                     return;
-
                 }
-
-
-                /* CREATE COMPLAINT CARDS */
 
                 container.innerHTML = "";
 
+                // CREATE CARDS
                 reports.slice().reverse().forEach(report => {
 
-                    const card =
-                        document.createElement("div");
+                    const card = document.createElement("div");
 
                     card.className = "complaint-card";
 
-                    const status =
-                        report.status || "Pending";
+                    const status = report.status || "Pending";
 
-                    const statusClass =
-                        getStatusClass(status);
+                    const statusClass = getStatusClass(status);
 
-
-                    /* IMAGE */
-
-                    let imageHTML = "";
-
-                    if (
-                        report.image &&
-                        typeof report.image === "string" &&
-                        report.image.trim() !== ""
-                    ) {
-
-                        imageHTML = `
-
-                            <div class="complaint-image">
-
-                                <strong>Uploaded Image:</strong>
-
-                                <img
-                                    src="${escapeHTML(report.image)}"
-                                    alt="Complaint image"
-                                    loading="lazy"
-                                >
-
-                            </div>
-
-                        `;
-
-                    }
-
-
-                    /* GPS DETAILS */
-
+                    // GPS DETAILS
                     let gpsHTML = "";
 
-                    const hasGPS =
-                        report.latitude !== null &&
-                        report.latitude !== undefined &&
-                        report.longitude !== null &&
-                        report.longitude !== undefined &&
-                        report.latitude !== "" &&
-                        report.longitude !== "" &&
-                        Number.isFinite(Number(report.latitude)) &&
-                        Number.isFinite(Number(report.longitude)) &&
-                        Number(report.latitude) >= -90 &&
-                        Number(report.latitude) <= 90 &&
-                        Number(report.longitude) >= -180 &&
-                        Number(report.longitude) <= 180;
-
-                    if (hasGPS) {
+                    if (hasValidGPS(report)) {
 
                         gpsHTML = `
-
                             <div class="detail">
-
                                 <strong>GPS Coordinates</strong>
 
                                 <span>
@@ -845,36 +662,47 @@
                                 <button
                                     class="map-btn"
                                     type="button"
-                                    data-map-reference="${escapeHTML(report.referenceId)}"
-                                >
+                                    data-map-reference="${escapeHTML(report.referenceId)}">
                                     📍 View on Map
                                 </button>
-
                             </div>
-
                         `;
 
                     } else {
 
                         gpsHTML = `
-
                             <div class="detail">
-
                                 <strong>GPS Location</strong>
-
                                 <span class="no-gps">
                                     Location unavailable
                                 </span>
-
                             </div>
-
                         `;
-
                     }
 
+                    // IMAGE
+                    let imageHTML = "";
 
-                    /* CARD */
+                    if (
+                        report.image &&
+                        typeof report.image === "string" &&
+                        report.image.trim() !== ""
+                    ) {
 
+                        imageHTML = `
+                            <div class="complaint-image">
+                                <strong>Uploaded Image:</strong>
+
+                                <img
+                                    src="${escapeHTML(report.image)}"
+                                    alt="Complaint image"
+                                    loading="lazy"
+                                >
+                            </div>
+                        `;
+                    }
+
+                    // CARD CONTENT
                     card.innerHTML = `
 
                         <div class="complaint-header">
@@ -889,44 +717,38 @@
 
                         </div>
 
-
                         <div class="complaint-details">
 
                             <div class="detail">
                                 <strong>Citizen Name</strong>
-                                <span>
-                                    ${escapeHTML(report.citizenName || "Not provided")}
-                                </span>
+                                <span>${escapeHTML(report.citizenName || "Not provided")}</span>
                             </div>
 
                             <div class="detail">
                                 <strong>Email</strong>
-                                <span>
-                                    ${escapeHTML(report.citizenEmail || "Not provided")}
-                                </span>
+                                <span>${escapeHTML(report.citizenEmail || "Not provided")}</span>
                             </div>
 
                             <div class="detail">
                                 <strong>Issue Type</strong>
-                                <span>
-                                    ${escapeHTML(report.issueType || "Not provided")}
-                                </span>
+                                <span>${escapeHTML(report.issueType || "Not provided")}</span>
                             </div>
 
                             <div class="detail">
                                 <strong>Location</strong>
-                                <span>
-                                    ${escapeHTML(report.location || "Not provided")}
-                                </span>
+                                <span>${escapeHTML(report.location || "Not provided")}</span>
                             </div>
 
                             ${gpsHTML}
 
                             <div class="detail description">
                                 <strong>Description</strong>
-                                <span>
-                                    ${escapeHTML(report.description || "No description")}
-                                </span>
+                                <span>${escapeHTML(report.description || "No description")}</span>
+                            </div>
+
+                            <div class="detail description">
+                                <strong>Admin Message</strong>
+                                <span>${escapeHTML(report.adminMessage || "No admin message")}</span>
                             </div>
 
                         </div>
@@ -935,14 +757,13 @@
 
                         <div class="admin-actions">
 
-                            <label>
+                            <label for="status-${escapeHTML(report.referenceId)}">
                                 Update Complaint Status
                             </label>
 
                             <select
                                 class="status-select"
-                                id="status-${escapeHTML(report.referenceId)}"
-                            >
+                                id="status-${escapeHTML(report.referenceId)}">
 
                                 <option value="Pending"
                                     ${status === "Pending" ? "selected" : ""}>
@@ -971,116 +792,60 @@
                             <button
                                 class="update-btn"
                                 type="button"
-                                data-update-reference="${escapeHTML(report.referenceId)}"
-                            >
+                                data-update-reference="${escapeHTML(report.referenceId)}">
                                 Update Status
                             </button>
 
                         </div>
-
                     `;
 
                     container.appendChild(card);
-
                 });
 
-
-                /* CONNECT BUTTONS */
-
+                // MAP BUTTON EVENTS
                 container.querySelectorAll("[data-map-reference]")
                     .forEach(button => {
 
                         button.addEventListener("click", function () {
-
-                            focusOnLocation(
-                                this.dataset.mapReference
-                            );
-
+                            focusOnLocation(this.dataset.mapReference);
                         });
 
                     });
 
+                // STATUS BUTTON EVENTS
                 container.querySelectorAll("[data-update-reference]")
                     .forEach(button => {
 
                         button.addEventListener("click", function () {
-
-                            updateStatus(
-                                this.dataset.updateReference
-                            );
-
+                            updateStatus(this.dataset.updateReference);
                         });
 
                     });
 
-            }
+            } catch (error) {
 
-            catch (error) {
-
-                console.error(
-                    "Error loading complaints:",
-                    error
-                );
+                console.error("Error loading complaints:", error);
 
                 container.innerHTML = `
-
                     <div class="message">
-
                         Unable to load complaints.
-
                         <br><br>
-
-                        <small>
-                            ${escapeHTML(error.message)}
-                        </small>
-
+                        ${escapeHTML(error.message)}
                     </div>
-
                 `;
-
             }
-
         }
 
-
-        /* =========================
-           STATUS CLASS
-        ========================= */
-
-        function getStatusClass(status) {
-
-            if (status === "In Progress") {
-                return "status-progress";
-            }
-
-            if (status === "Resolved") {
-                return "status-resolved";
-            }
-
-            if (status === "Rejected") {
-                return "status-rejected";
-            }
-
-            return "status-pending";
-
-        }
-
-
-        /* =========================
-           UPDATE STATUS
-        ========================= */
-
+        // UPDATE STATUS
         async function updateStatus(referenceId) {
 
-            const select =
-                document.getElementById("status-" + referenceId);
+            const select = document.getElementById(
+                "status-" + referenceId
+            );
 
             if (!select) {
-
                 alert("Status selector not found.");
-
                 return;
-
             }
 
             const newStatus = select.value;
@@ -1088,104 +853,50 @@
             try {
 
                 const response = await fetch(
-
                     API_URL +
                     "/api/reports/status/" +
                     encodeURIComponent(referenceId),
-
                     {
-
                         method: "PUT",
-
                         headers: {
                             "Content-Type": "application/json"
                         },
-
                         body: JSON.stringify({
                             status: newStatus
                         })
-
                     }
-
                 );
 
                 const result = await response.json();
 
                 if (!response.ok) {
-
-                    alert(
-                        result.message ||
-                        "Unable to update status"
-                    );
-
+                    alert(result.message || "Unable to update status.");
                     return;
-
                 }
 
-                alert(
-                    "Complaint status updated successfully!"
-                );
+                alert("Complaint status updated successfully!");
 
-                loadComplaints();
+                await loadComplaints();
 
+            } catch (error) {
+
+                console.error("STATUS UPDATE ERROR:", error);
+
+                alert("Unable to connect to StreetFault server.");
             }
-
-            catch (error) {
-
-                console.error(
-                    "STATUS UPDATE ERROR:",
-                    error
-                );
-
-                alert(
-                    "Unable to connect to StreetFault server."
-                );
-
-            }
-
         }
 
-
-        /* =========================
-           LOGOUT
-        ========================= */
-
+        // LOGOUT
         function logout() {
 
             localStorage.removeItem("streetfaultAdmin");
             localStorage.removeItem("adminLoggedIn");
 
             window.location.href = "admin-login.html";
-
         }
 
-
-        /* =========================
-           HTML ESCAPE
-        ========================= */
-
-        function escapeHTML(value) {
-
-            if (value === null || value === undefined) {
-                return "";
-            }
-
-            return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-
-        }
-
-
-        /* =========================
-           START DASHBOARD
-        ========================= */
-
+        // START DASHBOARD
         initializeMap();
-
         loadComplaints();
 
     </script>
