@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,10 +14,7 @@
 
 <body>
 
-    <!-- NAVBAR -->
-
     <header class="navbar">
-
         <div class="logo">
             Street<span>Fault</span>
         </div>
@@ -24,17 +23,11 @@
             <a href="index.html">Home</a>
             <a href="track.html">Track Complaint</a>
         </nav>
-
     </header>
-
-
-    <!-- REPORT SECTION -->
 
     <section class="report-section">
 
         <div class="report-container">
-
-            <!-- LEFT INFORMATION -->
 
             <div class="report-info">
 
@@ -52,7 +45,6 @@
                     garbage problem or another street issue?
                     Report it here and help improve your neighborhood.
                 </p>
-
 
                 <div class="report-tips">
 
@@ -75,61 +67,27 @@
 
             </div>
 
-
-            <!-- REPORT FORM -->
-
             <div class="report-card">
 
                 <div class="form-heading">
-
                     <h2>Report an Issue</h2>
-
-                    <p>
-                        Fill in the details below
-                    </p>
-
+                    <p>Fill in the details below</p>
                 </div>
 
-
                 <form id="reportForm">
-
-
-                    <!-- ISSUE TYPE -->
 
                     <label for="issueType">
                         Issue Type
                     </label>
 
                     <select id="issueType" required>
-
-                        <option value="">
-                            Select an issue
-                        </option>
-
-                        <option value="Pothole">
-                            Pothole / Damaged Road
-                        </option>
-
-                        <option value="Streetlight">
-                            Broken Streetlight
-                        </option>
-
-                        <option value="Garbage">
-                            Garbage / Waste
-                        </option>
-
-                        <option value="Drainage">
-                            Drainage / Water Leakage
-                        </option>
-
-                        <option value="Other">
-                            Other
-                        </option>
-
+                        <option value="">Select an issue</option>
+                        <option value="Pothole">Pothole / Damaged Road</option>
+                        <option value="Streetlight">Broken Streetlight</option>
+                        <option value="Garbage">Garbage / Waste</option>
+                        <option value="Drainage">Drainage / Water Leakage</option>
+                        <option value="Other">Other</option>
                     </select>
-
-
-                    <!-- LOCATION -->
 
                     <label for="location">
                         Location
@@ -142,8 +100,28 @@
                         required
                     >
 
+                    <!-- GPS LOCATION BUTTON -->
 
-                    <!-- DESCRIPTION -->
+                    <button
+                        type="button"
+                        id="getLocationBtn"
+                        style="margin-top:10px; padding:12px 16px; border:1px solid #15956f; border-radius:8px; background:#ffffff; color:#123c2f; cursor:pointer; width:100%;"
+                    >
+                        📍 Use My Current Location
+                    </button>
+
+                    <p
+                        id="gpsStatus"
+                        aria-live="polite"
+                        style="font-size:13px; margin-top:8px;"
+                    >
+                        GPS location not captured yet.
+                    </p>
+
+                    <!-- Hidden GPS coordinates -->
+
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
 
                     <label for="description">
                         Description
@@ -156,40 +134,34 @@
                         required
                     ></textarea>
 
-
-                    <!-- IMAGE -->
-
                     <label for="image">
                         Upload Image
                     </label>
 
                     <div class="upload-box">
 
-    <input
-        type="file"
-        id="image"
-        accept="image/*"
-    >
+                        <input
+                            type="file"
+                            id="image"
+                            accept="image/*"
+                        >
 
-    <p id="uploadText">
-        📷 Upload a photo of the issue
-    </p>
+                        <p id="uploadText">
+                            📷 Upload a photo of the issue
+                        </p>
 
-    <small>
-        JPG, PNG or JPEG
-    </small>
+                        <small>
+                            JPG, PNG or JPEG
+                        </small>
 
-    <img
-        id="imagePreview"
-        src=""
-        alt="Selected image preview"
-        style="display:none; width:100%; max-height:250px; object-fit:contain; margin-top:15px; border-radius:10px;"
-    >
+                        <img
+                            id="imagePreview"
+                            src=""
+                            alt="Selected image preview"
+                            style="display:none; width:100%; max-height:250px; object-fit:contain; margin-top:15px; border-radius:10px;"
+                        >
 
-</div>
-
-
-                    <!-- SUBMIT -->
+                    </div>
 
                     <button
                         type="submit"
@@ -199,7 +171,6 @@
                     </button>
 
                 </form>
-
 
                 <p class="form-note">
                     Your complaint will be reviewed by the StreetFault admin.
@@ -211,9 +182,7 @@
 
     </section>
 
-
     <script src="script.js"></script>
 
 </body>
-
 </html>
